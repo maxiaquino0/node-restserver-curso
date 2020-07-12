@@ -96,11 +96,7 @@ app.put('/categoria/:id', verificaToken, (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
-    let descripcionCategoria = {
-        descripcion: body.descripcion
-    };
-
-    Categoria.findByIdAndUpdate(id, descripcionCategoria, { new: true, runValidators: true }, (err, categoriaDB) => {
+    Categoria.findById(id, (err, categoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -111,13 +107,26 @@ app.put('/categoria/:id', verificaToken, (req, res) => {
         if (!categoriaDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Categoria no existente'
+                }
             });
         }
 
-        res.json({
-            ok: true,
-            categoria: categoriaDB
+        categoriaDB.descripcion = body.descripcion;
+
+        categoriaDB.save((err, categoriaGuardada) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            res.json({
+                ok: true,
+                categoria: categoriaGuardada
+            })
         })
     });
 
