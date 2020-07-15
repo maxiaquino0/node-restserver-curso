@@ -1,2 +1,5 @@
 node_modules/
 .history/
+tmp/
+uploads/productos/
+uploads/usuarios/
