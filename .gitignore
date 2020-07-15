@@ -1,5 +1,7 @@
 node_modules/
 .history/
 tmp/
-uploads/productos/
-uploads/usuarios/
+/uploads/product/*
+/uploads/user/*
+!/uploads/product/.gitkeep
+!/uploads/user/.gitkeep
